@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace NotesAndDutiesAPI.Models;
 
 public enum DutyStatus{
@@ -6,6 +8,8 @@ public enum DutyStatus{
     Done
 }
 public class DutyModel {
+    [Key]
+    public int DutyId {get; set;}
     public string Title {get; set;}
 
     public DutyStatus Status {get; set;}
