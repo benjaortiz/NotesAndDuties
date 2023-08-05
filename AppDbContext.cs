@@ -16,4 +16,6 @@ public class AppDbContext : DbContext
     {
         modelBuilder.Entity<DutyModel>().Property(t => t.Status).HasConversion(new EnumToStringConverter<DutyStatus>());
     }
+
+    public DbSet<UserModel> users {get; set;}
 }
