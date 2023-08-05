@@ -1,8 +1,13 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using NotesAndDutiesAPI;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//configure database
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data Source=nad.db"));
 
 // Add services to the container.
 
