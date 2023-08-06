@@ -40,6 +40,18 @@ namespace NotesAndDutiesAPI.Migrations
                 {
                     table.PrimaryKey("PK_users", x => x.UserId);
                 });
+            
+            migrationBuilder.InsertData(
+                table: "users",
+                columns: new[] {"UserId", "Username", "Password", "EmailAddress", "Role"},
+                values: new object[] {"1", "admin1", "admin", "dutiesuser@admin.com", "admin"}
+            );
+
+            migrationBuilder.InsertData(
+                table: "users",
+                columns: new[] {"UserId", "Username", "Password", "EmailAddress", "Role"},
+                values: new object[] {"2", "Chazz", "TheChazz", "ChazzItUp@user.com", "user"}
+            );
         }
 
         /// <inheritdoc />
