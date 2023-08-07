@@ -4,5 +4,9 @@ namespace Services.DutiesService;
 
 public class DutiesService {
     
-    private AppDbContext duties;
+    private IDutiesRepository _duties;
+
+    public DutiesService(IDutiesRepository duties){
+        _duties = duties;
+    }
 }

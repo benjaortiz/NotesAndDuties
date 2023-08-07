@@ -1,4 +1,4 @@
-using Repository.IUserRepository;
+using Repository.UserRepository;
 
 namespace Services.UserService;
 
