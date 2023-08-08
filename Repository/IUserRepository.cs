@@ -7,4 +7,10 @@ public interface IUserRepository {
     public UserModel getById(int id);
 
     public UserModel getByName(string username);
+
+    //add
+
+    //put
+
+    //patch
 }

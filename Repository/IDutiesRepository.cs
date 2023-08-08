@@ -5,4 +5,12 @@ public interface IDutiesRepository {
 
     public DutyModel GetDutyById(int id);
 
+    //add
+
+    //put
+
+    //patch
+
+    //delete
+
 }

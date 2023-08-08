@@ -2,7 +2,7 @@ using NotesAndDutiesAPI;
 
 namespace Services.DutiesService;
 
-public class DutiesService {
+public class DutiesService : IDutiesService {
     
     private IDutiesRepository _duties;
 
