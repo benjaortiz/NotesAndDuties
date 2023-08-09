@@ -8,8 +8,7 @@ public interface IUserRepository {
 
     public UserModel getByName(string username);
 
-    //add
-
+    public void addUser(UserModel newUser);
     //put
 
     //patch
