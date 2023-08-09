@@ -13,21 +13,22 @@ namespace NotesAndDutiesAPI.Controllers;
 public class LoginController : ControllerBase
 {
     private IConfiguration _config;
-
-    public LoginController(IConfiguration config)
+    private ILoginService loginService;
+    public LoginController(IConfiguration config, ILoginService login)
     {
         _config = config;
+        loginService = login;
     }
 
     [AllowAnonymous]
     [HttpPost]
     public IActionResult Login( [FromBody] UserLogin loginData)
     {
-        var user = AuthenticateUser(loginData);
+        var user = this.loginService.AuthenticateUser(loginData);
 
         if (user != null)
         {
-            var token = Generate(user);
+            var token = this.loginService.GenerateJwt(user);
             return Ok(token);
         }
 
