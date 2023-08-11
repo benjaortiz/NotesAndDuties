@@ -16,7 +16,7 @@ public class LoginService : ILoginService
         users = loginRepo;
     }
 
-    public UserModel AuthenticateUser(UserLogin loginData)
+    public UserModel? AuthenticateUser(UserLogin loginData)
     {
         var currentUser = this.users.GetUser(loginData);
 

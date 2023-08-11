@@ -24,7 +24,7 @@ public class UserRepository : IUserRepository, ILoginRepository
                     where u.UserId == id
                     select u;
 
-        return query.First();
+        return query.FirstOrDefault();
     }
 
     public UserModel getByName(string username)
@@ -48,7 +48,7 @@ public class UserRepository : IUserRepository, ILoginRepository
                     where u.Username.Equals(userData.Username) && u.Password.Equals(userData.Password)
                     select u;
 
-        return query.First();
+        return query.FirstOrDefault();
     }
 
     public List<UserLogin> GetUserLogins()

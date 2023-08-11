@@ -32,7 +32,7 @@ public class LoginController : ControllerBase
             return Ok(token);
         }
 
-        return NotFound("could not fin a valid user/password");
+        return NotFound("could not find a valid user/password");
     }
 
     private string Generate(UserModel user)

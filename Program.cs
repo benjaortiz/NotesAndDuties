@@ -3,14 +3,27 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NotesAndDutiesAPI;
+using Repository.DutiesRepository;
+using Repository.UserRepository;
+using Services.DutiesService;
+using Services.LoginService;
+using Services.UserService;
 
 var builder = WebApplication.CreateBuilder(args);
 
 //configure database
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data Source=nad.db"));
 
-// Add services to the container.
+//Adding the repositories and services for dependency injection
+builder.Services.AddScoped<IDutiesRepository, DutiesRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ILoginRepository, UserRepository>();
 
+builder.Services.AddScoped<IDutiesService, DutiesService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ILoginService, LoginService>();
+
+// Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
