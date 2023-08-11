@@ -6,5 +6,8 @@ namespace NotesAndDutiesAPI.Controllers;
 [Route("[controller]")]
 public class DutiesController : ControllerBase
 {
-
+    private IDutiesService _dutiesService;
+    public DutiesController(IDutiesService service){
+        _dutiesService = service;
+    }
 }

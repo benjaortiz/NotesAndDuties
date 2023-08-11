@@ -47,14 +47,14 @@ public class DutiesRepository : IDutiesRepository
         return this._duties.Set<DutyModel>().ToList();
     }
 
-    public DutyModel GetDutyById(int id)
+    public DutyModel? GetDutyById(int id)
     {
         return this._duties.duties.Find(id);
     }
 
     public DutyModel? replaceDuty(DutyModel updatedDuty)
     {
-        DutyModel oldDuty = this.GetDutyById(updatedDuty.DutyId);
+        DutyModel? oldDuty = this.GetDutyById(updatedDuty.DutyId);
 
         if (oldDuty != null){
             this._duties.Remove(oldDuty);
