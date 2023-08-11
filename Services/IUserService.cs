@@ -1,8 +1,12 @@
+using NotesAndDutiesAPI.Models;
+
 public interface IUserService {
     //Post (add)
 
     //get (all)
+    public UserModel getUser(UserLogin user);
 
+    UserModel getUser(UserModel user); 
     //get 1 specific
 
     //update (put)

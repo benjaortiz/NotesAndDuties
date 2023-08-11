@@ -3,7 +3,7 @@ using NotesAndDutiesAPI.Models;
 
 namespace Repository.UserRepository;
 
-public class UserRepository : IUserRepository
+public class UserRepository : IUserRepository, ILoginRepository
 {
     private AppDbContext _users;
 
@@ -40,5 +40,19 @@ public class UserRepository : IUserRepository
     void IUserRepository.addUser(UserModel newUser)
     {
         this._users.users.Add(newUser);
+    }
+
+    public UserModel GetUser(UserLogin userData)
+    {
+        var query = from u in _users.users
+                    where u.Username.Equals(userData.Username) && u.Password.Equals(userData.Password)
+                    select u;
+
+        return query.First();
+    }
+
+    public List<UserLogin> GetUserLogins()
+    {
+        return this._users.Set<UserLogin>().ToList();
     }
 }

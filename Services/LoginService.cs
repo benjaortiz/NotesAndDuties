@@ -9,17 +9,16 @@ namespace Services.LoginService;
 public class LoginService : ILoginService
 {
     private IConfiguration _config;
-    private IUserRepository users;
+    private ILoginRepository users;
 
-    public LoginService(IConfiguration config, IUserRepository usersRepo){
+    public LoginService(IConfiguration config, ILoginRepository loginRepo){
         _config = config;
-        users = usersRepo;
+        users = loginRepo;
     }
 
     public UserModel AuthenticateUser(UserLogin loginData)
     {
-        var currentUser = UserConstants.Users.FirstOrDefault(i => i.Username.ToLower() == loginData.Username.ToLower()
-        && i.Password == loginData.Password);
+        var currentUser = this.users.GetUser(loginData);
 
         if (currentUser != null)
         {
