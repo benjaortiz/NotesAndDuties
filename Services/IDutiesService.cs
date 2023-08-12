@@ -17,4 +17,5 @@ public interface IDutiesService {
 
     //Delete
     DutyModel? DeleteDuty(int id);
+    DutyModel? ReplaceDuty(int id, PostDutyModel updatedDuty);
 }

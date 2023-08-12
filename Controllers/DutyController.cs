@@ -75,4 +75,17 @@ public class DutiesController : ControllerBase
             return NotFound("could not find the resource");
         }
     }
+
+    [AllowAnonymous]
+    [HttpPut("{id}")]
+    public IActionResult updateDuty(int id, [FromBody] PostDutyModel updatedDuty){
+        var update = this._dutiesService.ReplaceDuty(id, updatedDuty);
+
+        if (update != null){
+            return StatusCode(201);
+        }
+        else {
+            return BadRequest();
+        }
+    }
 }
