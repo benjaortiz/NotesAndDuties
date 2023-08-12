@@ -12,22 +12,24 @@ public class DutiesRepository : IDutiesRepository
         _duties = db;
     }
 
-    public void addDuty(DutyModel newDuty)
+    public DutyModel addDuty(DutyModel newDuty)
     {
         this._duties.Add(newDuty);
         this._duties.SaveChanges();
+
+        return newDuty;
     }
 
     public DutyModel? deleteDuty(DutyModel duty)
     {
-        DutyModel chosenDuty = this.GetDutyById(duty.DutyId);
+        DutyModel? dutyToDelete = this.GetDutyById(duty.DutyId);
         
-        if (chosenDuty != null){
-            this._duties.Remove(chosenDuty);
+        if (dutyToDelete != null){
+            this._duties.Remove(dutyToDelete);
         }
         this._duties.SaveChanges();
 
-        return chosenDuty;
+        return dutyToDelete;
     }
 
     public DutyModel? deleteDuty(int id)

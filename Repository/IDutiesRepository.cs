@@ -1,12 +1,12 @@
 using NotesAndDutiesAPI.Models;
 
 public interface IDutiesRepository {
-    public List<DutyModel> GetDuties();
+    List<DutyModel> GetDuties();
 
-    public DutyModel? GetDutyById(int id);
+    DutyModel? GetDutyById(int id);
 
     //add
-    void addDuty(DutyModel newDuty);
+    DutyModel addDuty(DutyModel newDuty);
     //put
     DutyModel? replaceDuty(DutyModel updatedDuty);
     //patch

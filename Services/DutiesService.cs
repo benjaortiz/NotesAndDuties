@@ -1,3 +1,4 @@
+using Models.PostDutyModel;
 using NotesAndDutiesAPI;
 using NotesAndDutiesAPI.Models;
 
@@ -11,23 +12,25 @@ public class DutiesService : IDutiesService {
         _duties = duties;
     }
 
-    public DutyModel AddDuty(DutyModel newDuty)
+    public DutyModel AddDuty(PostDutyModel newDuty)
     {
+        DutyModel duty = new DutyModel{Title = newDuty.Title,
+                                    Status = newDuty.Status, 
+                                    Description = newDuty.Description};
         //should validate that the Id is correct before searching (not 0 or negative)
-        DutyModel oldDuty = this._duties.GetDutyById(newDuty.DutyId);
-        
-        if (oldDuty == null){
-            this._duties.addDuty(newDuty);
-        }
+        DutyModel addedDuty = this._duties.addDuty(duty);
 
-        return oldDuty;
+        return addedDuty;
     }
 
-    public void DeleteDuty(DutyModel duty)
+    public DutyModel? DeleteDuty(int id)
     {
-        if(this._duties.GetDutyById(duty.DutyId) != null){
-            this._duties.deleteDuty(duty);
+        DutyModel? dutyToDelete = this._duties.GetDutyById(id);
+        if(dutyToDelete != null){
+            this._duties.deleteDuty(id);
         }
+
+        return dutyToDelete;
     }
 
     public List<DutyModel> GetDuties()

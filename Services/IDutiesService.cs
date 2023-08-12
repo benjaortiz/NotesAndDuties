@@ -1,8 +1,9 @@
+using Models.PostDutyModel;
 using NotesAndDutiesAPI.Models;
 
 public interface IDutiesService {
     //Post (add)
-    DutyModel AddDuty(DutyModel newDuty);
+    DutyModel AddDuty(PostDutyModel newDuty);
 
     //get (all)
     List<DutyModel> GetDuties();
@@ -15,5 +16,5 @@ public interface IDutiesService {
     //patch
 
     //Delete
-    void DeleteDuty(DutyModel duty);
+    DutyModel? DeleteDuty(int id);
 }
