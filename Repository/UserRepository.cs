@@ -17,7 +17,7 @@ public class UserRepository : IUserRepository, ILoginRepository
         return this._users.Set<UserModel>().ToList();
     }
 
-    public UserModel getById(int id)
+    public UserModel? getById(int id)
     {
 
         var query = from u in _users.users
@@ -27,22 +27,25 @@ public class UserRepository : IUserRepository, ILoginRepository
         return query.FirstOrDefault();
     }
 
-    public UserModel getByName(string username)
+    public UserModel? getByName(string username)
     {
-        /*
+        
         var query = from u in _users.users
                     where u.Username.Equals(username)
                     select u;
-        */
-        return this._users.users.Where(d => d.Username == username).FirstOrDefault<UserModel>();
+        
+        return query.FirstOrDefault();
     }
 
-    void IUserRepository.addUser(UserModel newUser)
+    public UserModel addUser(UserModel newUser)
     {
         this._users.users.Add(newUser);
+        this._users.SaveChanges();
+
+        return this.getByName(newUser.Username);
     }
 
-    public UserModel GetUser(UserLogin userData)
+    public UserModel? GetUser(UserLogin userData)
     {
         var query = from u in _users.users
                     where u.Username.Equals(userData.Username) && u.Password.Equals(userData.Password)
@@ -54,5 +57,14 @@ public class UserRepository : IUserRepository, ILoginRepository
     public List<UserLogin> GetUserLogins()
     {
         return this._users.Set<UserLogin>().ToList();
+    }
+
+    public UserModel? getByEmail(string email)
+    {
+        var query = from u in _users.users
+                    where u.EmailAddress.ToLower().Equals(email.ToLower())
+                    select u;
+
+        return query.FirstOrDefault();
     }
 }

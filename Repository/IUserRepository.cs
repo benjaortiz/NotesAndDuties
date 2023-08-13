@@ -4,11 +4,14 @@ using NotesAndDutiesAPI.Models;
 public interface IUserRepository {
     public List<UserModel> GetUserModels();
 
-    public UserModel getById(int id);
+    public UserModel? getById(int id);
 
-    public UserModel getByName(string username);
+    public UserModel? getByName(string username);
 
-    public void addUser(UserModel newUser);
+    public UserModel addUser(UserModel newUser);
+    
+    public UserModel? getByEmail(string email);
+    
     //put
 
     //patch
