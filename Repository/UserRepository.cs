@@ -37,7 +37,7 @@ public class UserRepository : IUserRepository, ILoginRepository
         return query.FirstOrDefault();
     }
 
-    public UserModel addUser(UserModel newUser)
+    public UserModel? addUser(UserModel newUser)
     {
         this._users.users.Add(newUser);
         this._users.SaveChanges();

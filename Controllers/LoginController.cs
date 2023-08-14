@@ -35,40 +35,15 @@ public class LoginController : ControllerBase
         return NotFound("could not find a valid user/password");
     }
 
-    private string Generate(UserModel user)
-    {
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this._config["jwt:Key"]));
-        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+    [AllowAnonymous]
+    [HttpPost("/register")]
+    public IActionResult Register([FromBody] UserModelDto newUser){
+        UserModel? registeredUser = this.loginService.addNewUser(newUser);
 
-        var claims = new[] 
-        {
-            new Claim(ClaimTypes.NameIdentifier, user.Username),
-            new Claim(ClaimTypes.Email, user.EmailAddress),
-            new Claim(ClaimTypes.Role, user.Role)
-        };
-
-        var token = new JwtSecurityToken(
-            this._config["jwt:Issuer"],
-            this._config["jwt:Audience"],
-            claims,
-            expires: DateTime.Now.AddMinutes(60),
-            signingCredentials: credentials);
-
-        return new JwtSecurityTokenHandler().WriteToken(token);
-    }
-
-    private UserModel AuthenticateUser(UserLogin loginData)
-    {
-        var currentUser = UserConstants.Users.FirstOrDefault(i => i.Username.ToLower() == loginData.Username.ToLower()
-        && i.Password == loginData.Password);
-
-        if (currentUser != null)
-        {
-            return currentUser;
+        if (registeredUser != null){
+            return StatusCode(201);
         }
-        else
-        {
-            return null;
-        }
+
+        return BadRequest("the username/email address is already in use.");
     }
 }

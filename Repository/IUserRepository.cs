@@ -8,7 +8,7 @@ public interface IUserRepository {
 
     public UserModel? getByName(string username);
 
-    public UserModel addUser(UserModel newUser);
+    public UserModel? addUser(UserModel newUser);
     
     public UserModel? getByEmail(string email);
     

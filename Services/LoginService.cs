@@ -11,9 +11,48 @@ public class LoginService : ILoginService
     private IConfiguration _config;
     private ILoginRepository users;
 
-    public LoginService(IConfiguration config, ILoginRepository loginRepo){
+    public LoginService(IConfiguration config, ILoginRepository loginRepo)
+    {
         _config = config;
         users = loginRepo;
+    }
+
+    public UserModel? addNewUser(UserModelDto newUser)
+    {
+        List<UserModel> usersList = this.users.GetUserModels();
+        bool foundByEmail = false;
+        bool foundByUsername = false;
+        foreach (UserModel currentUser in usersList)
+        {
+            if (currentUser.EmailAddress.ToLower().Equals(newUser.EmailAddress.ToLower()))
+            {
+                foundByEmail = true;
+                break;
+            }
+            if (currentUser.Username.ToLower().Equals(newUser.Username.ToLower()))
+            {
+                foundByUsername = true;
+                break;
+            }
+        }
+
+        if (foundByEmail || foundByUsername)
+        {
+            //if anyone is different from null it means the email or username
+            //is already registered on the db.
+            return null;
+        }
+
+        UserModel user = new UserModel
+        {
+            Username = newUser.Username,
+            Password = newUser.Password,
+            EmailAddress = newUser.EmailAddress,
+            Role = newUser.Role
+        };
+
+        return this.users.addUser(user);
+
     }
 
     public UserModel? AuthenticateUser(UserLogin loginData)
@@ -35,7 +74,7 @@ public class LoginService : ILoginService
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this._config["jwt:Key"]));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-        var claims = new[] 
+        var claims = new[]
         {
             new Claim(ClaimTypes.NameIdentifier, user.Username),
             new Claim(ClaimTypes.Email, user.EmailAddress),
