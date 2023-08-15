@@ -16,3 +16,11 @@ public class DutyModel {
 
     public string? Description {get; set;}
 }
+
+public class PostDutyModel {
+    public string Title {get; set;}
+
+    public DutyStatus Status {get; set;}
+
+    public string? Description {get; set;}
+}

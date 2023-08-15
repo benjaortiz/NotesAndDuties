@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Models.PostDutyModel;
 using NotesAndDutiesAPI.Models;
 
 namespace NotesAndDutiesAPI.Controllers;

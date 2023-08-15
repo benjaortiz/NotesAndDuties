@@ -1,4 +1,3 @@
-using Models.PostDutyModel;
 using NotesAndDutiesAPI.Models;
 
 public interface IDutiesService {
