@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NotesAndDutiesAPI.Models;
 
@@ -17,6 +18,9 @@ public class DutyModel {
     public DutyStatus Status {get; set;}
 
     public string? Description {get; set;}
+
+    [ForeignKey("FK_Username")]
+    public string author {get; set;}
 }
 
 // A DutyModel DTO, meant to be used to store new Duties information 
