@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NotesAndDutiesAPI.Models;
@@ -5,6 +6,7 @@ using NotesAndDutiesAPI.Models;
 namespace NotesAndDutiesAPI.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("[controller]")]
 public class DutiesController : ControllerBase
 {
@@ -14,11 +16,17 @@ public class DutiesController : ControllerBase
         _dutiesService = service;
     }
 
-    [AllowAnonymous]
     [HttpGet]
     public IActionResult GetDuties()
     {
-        List<DutyModel> dutiesList = this._dutiesService.GetDuties();
+        string? user = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (user == null){
+            Console.WriteLine($"tried to find the user claim and it was {user == null}");
+            return Unauthorized("not authorized to see the duties");
+        }
+        Console.WriteLine($"obtained the user Claim correctly {user}");
+
+        List<DutyModel> dutiesList = this._dutiesService.GetDuties(user);
 
         if (dutiesList != null)
         {
@@ -41,12 +49,17 @@ public class DutiesController : ControllerBase
 
         return NotFound("Could not find a duty that matches the specified id.");
     }
-
+    //TODO remove the allow anonoymous on all methods
     [AllowAnonymous]
     [HttpPost]
     public IActionResult AddDuty([FromBody] PostDutyModel newDuty)
     {
-        DutyModel? duty = this._dutiesService.AddDuty(newDuty);
+        string? user = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (user == null){
+            return Unauthorized("could not find the current username");
+        }
+
+        DutyModel? duty = this._dutiesService.AddDuty(newDuty, user);
 
         if (duty != null)
         {

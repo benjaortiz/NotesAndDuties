@@ -27,6 +27,21 @@ public class DutiesService : IDutiesService
         return addedDuty;
     }
 
+    public DutyModel AddDuty(PostDutyModel newDuty, string dutyAuthor)
+    {
+        DutyModel duty = new DutyModel
+        {
+            Title = newDuty.Title,
+            Status = newDuty.Status,
+            Description = newDuty.Description,
+            author = dutyAuthor.ToLower()
+        };
+        //should validate that the Id is correct before searching (not 0 or negative)
+        DutyModel addedDuty = this._duties.addDuty(duty);
+
+        return addedDuty;
+    }
+
     public DutyModel? DeleteDuty(int id)
     {
         DutyModel? dutyToDelete = this._duties.GetDutyById(id);
@@ -41,6 +56,11 @@ public class DutiesService : IDutiesService
     public List<DutyModel> GetDuties()
     {
         return this._duties.GetDuties();
+    }
+
+    public List<DutyModel> GetDuties(string user)
+    {
+        return this._duties.GetDutiesByUsername(user.ToLower());
     }
 
     public DutyModel? GetDuty(int id)

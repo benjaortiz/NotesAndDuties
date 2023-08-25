@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace NotesAndDutiesAPI.Models
 {
@@ -8,6 +9,7 @@ namespace NotesAndDutiesAPI.Models
         [Key]
         public int UserId { get; set; }
 
+        [StringLength(450)]
         public string Username { get; set; }
 
         public string Password { get; set; }

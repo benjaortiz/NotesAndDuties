@@ -34,7 +34,7 @@ public class DutiesRepository : IDutiesRepository
 
     public DutyModel? deleteDuty(int id)
     {
-        DutyModel chosenDuty = this.GetDutyById(id);
+        DutyModel? chosenDuty = this.GetDutyById(id);
         
         if (chosenDuty != null){
             this._duties.Remove(chosenDuty);
@@ -49,6 +49,15 @@ public class DutiesRepository : IDutiesRepository
         return this._duties.Set<DutyModel>().ToList();
     }
 
+    public List<DutyModel> GetDutiesByUsername(string username)
+    {
+        var query = from d in this._duties.duties 
+                    where d.author.Equals(username.ToLower()) 
+                    select d;
+
+        return query.ToList();                    
+    }
+
     public DutyModel? GetDutyById(int id)
     {
         return this._duties.duties.Find(id);
@@ -59,6 +68,8 @@ public class DutiesRepository : IDutiesRepository
         DutyModel? oldDuty = this.GetDutyById(updatedDuty.DutyId);
 
         if (oldDuty != null){
+            //small patch, validation on this field should be done in the DutiesService
+            updatedDuty.author = oldDuty.author;
             this._duties.Remove(oldDuty);
             this._duties.Add(updatedDuty);
             this._duties.SaveChanges();
