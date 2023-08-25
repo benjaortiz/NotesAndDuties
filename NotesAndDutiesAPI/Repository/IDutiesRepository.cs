@@ -5,6 +5,8 @@ public interface IDutiesRepository {
 
     DutyModel? GetDutyById(int id);
 
+    List<DutyModel> GetDutiesByUsername(string username);
+
     //add
     DutyModel addDuty(DutyModel newDuty);
     //put
