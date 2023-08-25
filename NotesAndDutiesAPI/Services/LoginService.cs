@@ -78,12 +78,14 @@ public class LoginService : ILoginService
         {
             new Claim(ClaimTypes.NameIdentifier, user.Username),
             new Claim(ClaimTypes.Email, user.EmailAddress),
-            new Claim(ClaimTypes.Role, user.Role)
+            new Claim(ClaimTypes.Role, user.Role),
+            new Claim(JwtRegisteredClaimNames.Aud, _config["Jwt:Audience"]),
+            new Claim(JwtRegisteredClaimNames.Iss, _config["Jwt:Issuer"])
         };
 
         var token = new JwtSecurityToken(
-            this._config["jwt:Issuer"],
-            this._config["jwt:Audience"],
+            issuer: this._config["jwt:Issuer"],
+            audience: this._config["jwt:Audience"],
             claims,
             expires: DateTime.Now.AddMinutes(60),
             signingCredentials: credentials);

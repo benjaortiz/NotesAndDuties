@@ -34,7 +34,7 @@ public class DutiesRepository : IDutiesRepository
 
     public DutyModel? deleteDuty(int id)
     {
-        DutyModel chosenDuty = this.GetDutyById(id);
+        DutyModel? chosenDuty = this.GetDutyById(id);
         
         if (chosenDuty != null){
             this._duties.Remove(chosenDuty);

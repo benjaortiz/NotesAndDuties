@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NotesAndDutiesAPI.Models;
@@ -5,6 +6,7 @@ using NotesAndDutiesAPI.Models;
 namespace NotesAndDutiesAPI.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("[controller]")]
 public class DutiesController : ControllerBase
 {
@@ -14,10 +16,16 @@ public class DutiesController : ControllerBase
         _dutiesService = service;
     }
 
-    [AllowAnonymous]
     [HttpGet]
     public IActionResult GetDuties()
     {
+        string? user = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (user == null){
+            Console.WriteLine($"tried to find the user claim and it was {user == null}");
+            return Unauthorized("not authorized to see the duties");
+        }
+        Console.WriteLine($"obtained the user Claim correctly {user}");
+
         List<DutyModel> dutiesList = this._dutiesService.GetDuties();
 
         if (dutiesList != null)
