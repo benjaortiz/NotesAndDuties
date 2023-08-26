@@ -34,7 +34,7 @@ public class DutiesService : IDutiesService
             Title = newDuty.Title,
             Status = newDuty.Status,
             Description = newDuty.Description,
-            author = dutyAuthor.ToLower()
+            Author = dutyAuthor.ToLower()
         };
         //should validate that the Id is correct before searching (not 0 or negative)
         DutyModel addedDuty = this._duties.addDuty(duty);
@@ -57,7 +57,8 @@ public class DutiesService : IDutiesService
     {
         DutyModel? duty = this._duties.GetDutyById(id);
 
-        if (duty != null && duty.author.ToLower().Equals(user.ToLower())){
+        if (duty != null && duty.Author.ToLower().Equals(user.ToLower()))
+        {
             this._duties.deleteDuty(duty);
         }
 
@@ -83,7 +84,7 @@ public class DutiesService : IDutiesService
     {
         DutyModel? duty = this._duties.GetDutyById(id);
 
-        if (duty != null && duty.author.ToLower().Equals(user.ToLower()))
+        if (duty != null && duty.Author.ToLower().Equals(user.ToLower()))
         {
             return duty;
         }
@@ -96,33 +97,24 @@ public class DutiesService : IDutiesService
         return this._duties.replaceDuty(updatedDuty);
     }
 
-    public DutyModel? ReplaceDuty(int id, PostDutyModel updatedDuty)
+
+    public DutyModel? ReplaceDuty(int id, DutyModelDTO updatedDuty)
     {
+        //make the full dutymodel out of the DTO
         DutyModel duty = new DutyModel
         {
             DutyId = id,
             Title = updatedDuty.Title,
             Status = updatedDuty.Status,
-            Description = updatedDuty.Description
-        };
-
-        return this._duties.replaceDuty(duty);
-    }
-
-    public DutyModel? ReplaceDuty(int id, PostDutyModel updatedDuty, string user)
-    {
-            DutyModel duty = new DutyModel
-        {
-            DutyId = id,
-            Title = updatedDuty.Title,
-            Status = updatedDuty.Status,
             Description = updatedDuty.Description,
-            author = user
+            Author = updatedDuty.Author
         };
 
-        DutyModel? oldDuty = this._duties.GetDutyById(id);
+        //search for the duty in the repository
+        DutyModel? oldDuty = this._duties.GetDutyByIdAndUsername(id, duty.Author);
 
-        if(oldDuty != null && oldDuty.author.ToLower().Equals(user.ToLower())){
+        if (oldDuty != null)
+        {
             return this._duties.replaceDuty(duty);
         }
 

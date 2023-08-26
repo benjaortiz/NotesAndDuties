@@ -52,7 +52,7 @@ public class DutiesRepository : IDutiesRepository
     public List<DutyModel> GetDutiesByUsername(string username)
     {
         var query = from d in this._duties.duties 
-                    where d.author.Equals(username.ToLower()) 
+                    where d.Author.Equals(username.ToLower()) 
                     select d;
 
         return query.ToList();                    
@@ -63,13 +63,22 @@ public class DutiesRepository : IDutiesRepository
         return this._duties.duties.Find(id);
     }
 
+    public DutyModel? GetDutyByIdAndUsername(int id, string username)
+    {
+        var query = from d in _duties.duties
+                    where d.DutyId == id && d.Author.ToLower().Equals(username.ToLower())
+                    select d;
+        
+        return query.FirstOrDefault();
+    }
+
     public DutyModel? replaceDuty(DutyModel updatedDuty)
     {
         DutyModel? oldDuty = this.GetDutyById(updatedDuty.DutyId);
 
         if (oldDuty != null){
             //small patch, validation on this field should be done in the DutiesService
-            updatedDuty.author = oldDuty.author;
+            updatedDuty.Author = oldDuty.Author;
             this._duties.Remove(oldDuty);
             this._duties.Add(updatedDuty);
             this._duties.SaveChanges();

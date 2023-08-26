@@ -99,7 +99,14 @@ public class DutiesController : ControllerBase
     [HttpPut("{id}")]
     public IActionResult updateDuty(int id, [FromBody] PostDutyModel updatedDuty)
     {
-        var update = this._dutiesService.ReplaceDuty(id, updatedDuty);
+        string? user = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (user == null)
+        {
+            return Unauthorized("could not find the current username");
+        }
+        DutyModelDTO newDuty = new DutyModelDTO(updatedDuty, user);
+
+        var update = this._dutiesService.ReplaceDuty(id, newDuty);
 
         if (update != null)
         {
