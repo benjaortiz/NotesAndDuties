@@ -13,6 +13,8 @@ public interface IDutiesService {
     //get 1 specific
     DutyModel? GetDuty(int id);
 
+    DutyModel? GetDuty(int id, string user);
+
     //update (put)
     DutyModel? ReplaceDuty(DutyModel updatedDuty);
     //patch
@@ -20,4 +22,7 @@ public interface IDutiesService {
     //Delete
     DutyModel? DeleteDuty(int id);
     DutyModel? ReplaceDuty(int id, PostDutyModel updatedDuty);
+
+    DutyModel? DeleteDuty(int id, string user);
+    DutyModel? ReplaceDuty(int id, PostDutyModel updatedDuty, string user);
 }

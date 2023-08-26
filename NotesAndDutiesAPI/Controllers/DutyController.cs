@@ -20,7 +20,8 @@ public class DutiesController : ControllerBase
     public IActionResult GetDuties()
     {
         string? user = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (user == null){
+        if (user == null)
+        {
             Console.WriteLine($"tried to find the user claim and it was {user == null}");
             return Unauthorized("not authorized to see the duties");
         }
@@ -36,11 +37,17 @@ public class DutiesController : ControllerBase
         return NotFound("Could not find the duties list");
     }
 
-    [AllowAnonymous]
     [HttpGet("{id}")]
     public IActionResult GetDuty(int id)
     {
-        DutyModel? reqDuty = this._dutiesService.GetDuty(id);
+        string? user = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (user == null)
+        {
+            Console.WriteLine($"tried to find the user claim and it was {user == null}");
+            return Unauthorized("not authorized to see the duties");
+        }
+
+        DutyModel? reqDuty = this._dutiesService.GetDuty(id, user);
 
         if (reqDuty != null)
         {
@@ -49,13 +56,13 @@ public class DutiesController : ControllerBase
 
         return NotFound("Could not find a duty that matches the specified id.");
     }
-    //TODO remove the allow anonoymous on all methods
-    [AllowAnonymous]
+
     [HttpPost]
     public IActionResult AddDuty([FromBody] PostDutyModel newDuty)
     {
         string? user = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (user == null){
+        if (user == null)
+        {
             return Unauthorized("could not find the current username");
         }
 
@@ -90,13 +97,16 @@ public class DutiesController : ControllerBase
 
     [AllowAnonymous]
     [HttpPut("{id}")]
-    public IActionResult updateDuty(int id, [FromBody] PostDutyModel updatedDuty){
+    public IActionResult updateDuty(int id, [FromBody] PostDutyModel updatedDuty)
+    {
         var update = this._dutiesService.ReplaceDuty(id, updatedDuty);
 
-        if (update != null){
+        if (update != null)
+        {
             return StatusCode(201);
         }
-        else {
+        else
+        {
             return BadRequest();
         }
     }

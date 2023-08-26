@@ -53,6 +53,17 @@ public class DutiesService : IDutiesService
         return dutyToDelete;
     }
 
+    public DutyModel? DeleteDuty(int id, string user)
+    {
+        DutyModel? duty = this._duties.GetDutyById(id);
+
+        if (duty != null && duty.author.ToLower().Equals(user.ToLower())){
+            this._duties.deleteDuty(duty);
+        }
+
+        return duty;
+    }
+
     public List<DutyModel> GetDuties()
     {
         return this._duties.GetDuties();
@@ -68,21 +79,53 @@ public class DutiesService : IDutiesService
         return this._duties.GetDutyById(id);
     }
 
+    public DutyModel? GetDuty(int id, string user)
+    {
+        DutyModel? duty = this._duties.GetDutyById(id);
+
+        if (duty != null && duty.author.ToLower().Equals(user.ToLower()))
+        {
+            return duty;
+        }
+
+        return null;
+    }
+
     public DutyModel? ReplaceDuty(DutyModel updatedDuty)
     {
         return this._duties.replaceDuty(updatedDuty);
     }
 
-    public DutyModel? ReplaceDuty(int id, PostDutyModel newDuty)
+    public DutyModel? ReplaceDuty(int id, PostDutyModel updatedDuty)
     {
-        DutyModel duty = new DutyModel 
-        { 
+        DutyModel duty = new DutyModel
+        {
             DutyId = id,
-            Title = newDuty.Title,
-            Status = newDuty.Status,
-            Description = newDuty.Description
+            Title = updatedDuty.Title,
+            Status = updatedDuty.Status,
+            Description = updatedDuty.Description
         };
-        
+
         return this._duties.replaceDuty(duty);
+    }
+
+    public DutyModel? ReplaceDuty(int id, PostDutyModel updatedDuty, string user)
+    {
+            DutyModel duty = new DutyModel
+        {
+            DutyId = id,
+            Title = updatedDuty.Title,
+            Status = updatedDuty.Status,
+            Description = updatedDuty.Description,
+            author = user
+        };
+
+        DutyModel? oldDuty = this._duties.GetDutyById(id);
+
+        if(oldDuty != null && oldDuty.author.ToLower().Equals(user.ToLower())){
+            return this._duties.replaceDuty(duty);
+        }
+
+        return null;
     }
 }
