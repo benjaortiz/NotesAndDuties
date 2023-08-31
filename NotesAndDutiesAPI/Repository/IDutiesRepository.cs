@@ -1,6 +1,7 @@
 using NotesAndDutiesAPI.Models;
 
-public interface IDutiesRepository {
+public interface IDutiesRepository
+{
     List<DutyModel> GetDuties();
 
     DutyModel? GetDutyById(int id);

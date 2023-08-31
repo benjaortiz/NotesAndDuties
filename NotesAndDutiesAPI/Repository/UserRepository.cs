@@ -29,11 +29,11 @@ public class UserRepository : IUserRepository, ILoginRepository
 
     public UserModel? getByName(string username)
     {
-        
+
         var query = from u in _users.users
                     where u.Username.Equals(username)
                     select u;
-        
+
         return query.FirstOrDefault();
     }
 

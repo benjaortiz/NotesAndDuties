@@ -10,12 +10,12 @@ public class AppDbContext : DbContext
     {
     }
 
-    public DbSet<DutyModel> duties {get; set;}
+    public DbSet<DutyModel> duties { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<DutyModel>().Property(t => t.Status).HasConversion(new EnumToStringConverter<DutyStatus>());
     }
 
-    public DbSet<UserModel> users {get; set;}
+    public DbSet<UserModel> users { get; set; }
 }

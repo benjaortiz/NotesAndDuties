@@ -1,11 +1,12 @@
 using NotesAndDutiesAPI.Models;
 
-public interface ILoginRepository{
-        public List<UserLogin> GetUserLogins();
+public interface ILoginRepository
+{
+    public List<UserLogin> GetUserLogins();
 
-        public List<UserModel> GetUserModels();
+    public List<UserModel> GetUserModels();
 
-        public UserModel? GetUser(UserLogin userData);
+    public UserModel? GetUser(UserLogin userData);
 
-        public UserModel? addUser(UserModel newUser);
+    public UserModel? addUser(UserModel newUser);
 }

@@ -1,6 +1,7 @@
 using NotesAndDutiesAPI.Models;
 
-public interface ILoginService {
+public interface ILoginService
+{
 
     public UserModel AuthenticateUser(UserLogin loginData);
 

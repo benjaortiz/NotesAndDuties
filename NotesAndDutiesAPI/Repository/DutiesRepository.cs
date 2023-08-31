@@ -23,8 +23,9 @@ public class DutiesRepository : IDutiesRepository
     public DutyModel? deleteDuty(DutyModel duty)
     {
         DutyModel? dutyToDelete = this.GetDutyById(duty.DutyId);
-        
-        if (dutyToDelete != null){
+
+        if (dutyToDelete != null)
+        {
             this._duties.Remove(dutyToDelete);
         }
         this._duties.SaveChanges();
@@ -35,8 +36,9 @@ public class DutiesRepository : IDutiesRepository
     public DutyModel? deleteDuty(int id)
     {
         DutyModel? chosenDuty = this.GetDutyById(id);
-        
-        if (chosenDuty != null){
+
+        if (chosenDuty != null)
+        {
             this._duties.Remove(chosenDuty);
         }
         this._duties.SaveChanges();
@@ -51,11 +53,11 @@ public class DutiesRepository : IDutiesRepository
 
     public List<DutyModel> GetDutiesByUsername(string username)
     {
-        var query = from d in this._duties.duties 
-                    where d.Author.Equals(username.ToLower()) 
+        var query = from d in this._duties.duties
+                    where d.Author.Equals(username.ToLower())
                     select d;
 
-        return query.ToList();                    
+        return query.ToList();
     }
 
     public DutyModel? GetDutyById(int id)
@@ -68,15 +70,28 @@ public class DutiesRepository : IDutiesRepository
         var query = from d in _duties.duties
                     where d.DutyId == id && d.Author.ToLower().Equals(username.ToLower())
                     select d;
-        
+
         return query.FirstOrDefault();
     }
 
     public DutyModel? replaceDuty(DutyModel updatedDuty)
     {
+
+        switch (this.GetDutyById(updatedDuty.DutyId))
+        {
+            case null:
+                throw new NullReferenceException("Could not find the duty that wants to be updated");
+            case DutyModel:
+            default:
+                break;
+        };
+
+
+
         DutyModel? oldDuty = this.GetDutyById(updatedDuty.DutyId);
 
-        if (oldDuty != null){
+        if (oldDuty != null)
+        {
             //small patch, validation on this field should be done in the DutiesService
             updatedDuty.Author = oldDuty.Author;
             this._duties.Remove(oldDuty);

@@ -39,7 +39,8 @@ public class PostDutyModel
 
 public class DutyModelDTO
 {
-    public DutyModelDTO(PostDutyModel duty, string username){
+    public DutyModelDTO(PostDutyModel duty, string username)
+    {
         Title = duty.Title;
         Status = duty.Status;
         Description = duty.Description;

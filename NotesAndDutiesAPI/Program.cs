@@ -29,16 +29,18 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(
-    options => {
-    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme {
-        Scheme = "Bearer",
+    options =>
+    {
+        options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+        {
+            Scheme = "Bearer",
             BearerFormat = "JWT",
             In = ParameterLocation.Header,
             Name = "Authorization",
             Description = "Bearer Authentication with JWT Token",
             Type = SecuritySchemeType.Http
-    });
-    options.AddSecurityRequirement(new OpenApiSecurityRequirement {
+        });
+        options.AddSecurityRequirement(new OpenApiSecurityRequirement {
         {
             new OpenApiSecurityScheme {
                 Reference = new OpenApiReference {
@@ -49,19 +51,21 @@ builder.Services.AddSwaggerGen(
             new List < string > ()
         }
     });
-}
+    }
 );
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>{
-        options.TokenValidationParameters = new TokenValidationParameters {
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration[ "Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey (Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
         };
     });
 
@@ -74,8 +78,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(options =>
         {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Notes and Duties API V1");
-        options.RoutePrefix = string.Empty;
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "Notes and Duties API V1");
+            options.RoutePrefix = string.Empty;
         });
 }
 

@@ -16,7 +16,7 @@ namespace NotesAndDutiesAPI.Migrations
                 type: "TEXT",
                 nullable: false,
                 defaultValue: "");
-            
+
             migrationBuilder.AddForeignKey(
             name: "FK_Duties_Users",
             table: "duties",

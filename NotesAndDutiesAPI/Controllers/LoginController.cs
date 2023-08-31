@@ -22,7 +22,7 @@ public class LoginController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost]
-    public IActionResult Login( [FromBody] UserLogin loginData)
+    public IActionResult Login([FromBody] UserLogin loginData)
     {
         var user = this.loginService.AuthenticateUser(loginData);
 
@@ -37,10 +37,12 @@ public class LoginController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("/register")]
-    public IActionResult Register([FromBody] UserModelDto newUser){
+    public IActionResult Register([FromBody] UserModelDto newUser)
+    {
         UserModel? registeredUser = this.loginService.addNewUser(newUser);
 
-        if (registeredUser != null){
+        if (registeredUser != null)
+        {
             return StatusCode(201);
         }
 

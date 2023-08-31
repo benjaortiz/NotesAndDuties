@@ -1,6 +1,7 @@
 using NotesAndDutiesAPI.Models;
 
-public interface IDutiesService {
+public interface IDutiesService
+{
     //Post (add)
     DutyModel AddDuty(PostDutyModel newDuty, string dutyAuthor);
 
