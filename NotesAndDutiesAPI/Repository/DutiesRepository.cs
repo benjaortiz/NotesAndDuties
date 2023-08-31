@@ -76,18 +76,6 @@ public class DutiesRepository : IDutiesRepository
 
     public DutyModel? replaceDuty(DutyModel updatedDuty)
     {
-
-        switch (this.GetDutyById(updatedDuty.DutyId))
-        {
-            case null:
-                throw new NullReferenceException("Could not find the duty that wants to be updated");
-            case DutyModel:
-            default:
-                break;
-        };
-
-
-
         DutyModel? oldDuty = this.GetDutyById(updatedDuty.DutyId);
 
         if (oldDuty != null)
@@ -97,6 +85,9 @@ public class DutiesRepository : IDutiesRepository
             this._duties.Remove(oldDuty);
             this._duties.Add(updatedDuty);
             this._duties.SaveChanges();
+        }
+        else {
+            throw new NullReferenceException("Could not find the duty that has to be replaced.");
         }
 
         return oldDuty;
