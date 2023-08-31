@@ -47,7 +47,15 @@ public class DutiesService : IDutiesService
         DutyModel? dutyToDelete = this._duties.GetDutyById(id);
         if (dutyToDelete != null)
         {
-            this._duties.deleteDuty(id);
+            try
+            {
+                this._duties.deleteDuty(id);
+            }
+            catch (NullReferenceException)
+            {
+                throw;
+            }
+
         }
 
         return dutyToDelete;
@@ -130,7 +138,7 @@ public class DutiesService : IDutiesService
         {
             return this._duties.replaceDuty(duty);
         }
-        catch
+        catch(NullReferenceException)
         {
             throw;
         }
