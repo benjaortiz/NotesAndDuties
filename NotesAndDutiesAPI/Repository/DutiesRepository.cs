@@ -27,8 +27,12 @@ public class DutiesRepository : IDutiesRepository
         if (dutyToDelete != null)
         {
             this._duties.Remove(dutyToDelete);
+            this._duties.SaveChanges();
         }
-        this._duties.SaveChanges();
+        else
+        {
+            throw new NullReferenceException("Duty to be deleted could not be found.");
+        }
 
         return dutyToDelete;
     }
@@ -40,8 +44,12 @@ public class DutiesRepository : IDutiesRepository
         if (chosenDuty != null)
         {
             this._duties.Remove(chosenDuty);
+            this._duties.SaveChanges();
         }
-        this._duties.SaveChanges();
+        else
+        {
+            throw new NullReferenceException("Duty to be deleted could not be found.");
+        }
 
         return chosenDuty;
     }
@@ -86,7 +94,8 @@ public class DutiesRepository : IDutiesRepository
             this._duties.Add(updatedDuty);
             this._duties.SaveChanges();
         }
-        else {
+        else
+        {
             throw new NullReferenceException("Could not find the duty that has to be replaced.");
         }
 

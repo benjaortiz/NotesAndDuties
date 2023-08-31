@@ -21,7 +21,7 @@ public class DutiesService : IDutiesService
             Status = newDuty.Status,
             Description = newDuty.Description
         };
-        //should validate that the Id is correct before searching (not 0 or negative)
+
         DutyModel addedDuty = this._duties.addDuty(duty);
 
         return addedDuty;
@@ -36,7 +36,7 @@ public class DutiesService : IDutiesService
             Description = newDuty.Description,
             Author = dutyAuthor.ToLower()
         };
-        //should validate that the Id is correct before searching (not 0 or negative)
+
         DutyModel addedDuty = this._duties.addDuty(duty);
 
         return addedDuty;
@@ -59,9 +59,19 @@ public class DutiesService : IDutiesService
 
         if (duty != null && duty.Author.ToLower().Equals(user.ToLower()))
         {
-            this._duties.deleteDuty(duty);
+            try
+            {
+                this._duties.deleteDuty(duty);
+            }
+            catch (NullReferenceException)
+            {
+                throw;
+            }
         }
-
+        else if (duty == null)
+        {
+            throw new NullReferenceException("$Could not find a duty that matches the requested id: {id}");
+        }
         return duty;
     }
 
@@ -82,21 +92,20 @@ public class DutiesService : IDutiesService
 
     public DutyModel? GetDuty(int id, string user)
     {
-        DutyModel? duty = this._duties.GetDutyById(id);
+        DutyModel? duty = this._duties.GetDutyByIdAndUsername(id, user);
 
-        if (duty != null && duty.Author.ToLower().Equals(user.ToLower()))
+        if (duty == null)
         {
-            return duty;
+            throw new NullReferenceException($"Could not find a duty that matches the given id: {id} & author: {user}");
         }
 
-        return null;
+        return duty;
     }
 
     public DutyModel? ReplaceDuty(DutyModel updatedDuty)
     {
         return this._duties.replaceDuty(updatedDuty);
     }
-
 
     public DutyModel? ReplaceDuty(int id, DutyModelDTO updatedDuty)
     {
@@ -113,11 +122,17 @@ public class DutiesService : IDutiesService
         //search for the duty in the repository
         DutyModel? oldDuty = this._duties.GetDutyByIdAndUsername(id, duty.Author);
 
-        if (oldDuty != null)
+        if (oldDuty == null)
+        {
+            throw new NullReferenceException($"Could not find a duty that matches the requested id: {id} & author: {duty.Author}");
+        }
+        try
         {
             return this._duties.replaceDuty(duty);
         }
-
-        return null;
+        catch
+        {
+            throw;
+        }
     }
 }
