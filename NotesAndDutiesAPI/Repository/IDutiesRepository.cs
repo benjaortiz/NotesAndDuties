@@ -2,7 +2,7 @@ using NotesAndDutiesAPI.Models;
 
 public interface IDutiesRepository
 {
-    List<DutyModel> GetDuties();
+    // List<DutyModel> GetDuties();
 
     DutyModel? GetDutyById(int id);
 
@@ -13,7 +13,7 @@ public interface IDutiesRepository
     //add
     DutyModel addDuty(DutyModel newDuty);
     //put
-    DutyModel? replaceDuty(DutyModel updatedDuty);
+    DutyModel replaceDuty(DutyModel updatedDuty);
 
     //delete
     DutyModel? deleteDuty(DutyModel duty);

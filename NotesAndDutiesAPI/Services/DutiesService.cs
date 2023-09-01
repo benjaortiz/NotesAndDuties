@@ -13,19 +13,19 @@ public class DutiesService : IDutiesService
         _duties = duties;
     }
 
-    public DutyModel AddDuty(PostDutyModel newDuty)
-    {
-        DutyModel duty = new DutyModel
-        {
-            Title = newDuty.Title,
-            Status = newDuty.Status,
-            Description = newDuty.Description
-        };
+    // public DutyModel AddDuty(PostDutyModel newDuty)
+    // {
+    //     DutyModel duty = new DutyModel
+    //     {
+    //         Title = newDuty.Title,
+    //         Status = newDuty.Status,
+    //         Description = newDuty.Description
+    //     };
 
-        DutyModel addedDuty = this._duties.addDuty(duty);
+    //     DutyModel addedDuty = this._duties.addDuty(duty);
 
-        return addedDuty;
-    }
+    //     return addedDuty;
+    // }
 
     public DutyModel AddDuty(PostDutyModel newDuty, string dutyAuthor)
     {
@@ -42,30 +42,30 @@ public class DutiesService : IDutiesService
         return addedDuty;
     }
 
-    public DutyModel? DeleteDuty(int id)
+    // public DutyModel? DeleteDuty(int id)
+    // {
+    //     DutyModel? dutyToDelete = this._duties.GetDutyById(id);
+    //     if (dutyToDelete != null)
+    //     {
+    //         try
+    //         {
+    //             this._duties.deleteDuty(id);
+    //         }
+    //         catch (NullReferenceException)
+    //         {
+    //             throw;
+    //         }
+
+    //     }
+
+    //     return dutyToDelete;
+    // }
+
+    public DutyModel DeleteDuty(int id, string user)
     {
-        DutyModel? dutyToDelete = this._duties.GetDutyById(id);
-        if (dutyToDelete != null)
-        {
-            try
-            {
-                this._duties.deleteDuty(id);
-            }
-            catch (NullReferenceException)
-            {
-                throw;
-            }
+        DutyModel? duty = this._duties.GetDutyByIdAndUsername(id, user);
 
-        }
-
-        return dutyToDelete;
-    }
-
-    public DutyModel? DeleteDuty(int id, string user)
-    {
-        DutyModel? duty = this._duties.GetDutyById(id);
-
-        if (duty != null && duty.Author.ToLower().Equals(user.ToLower()))
+        if (duty != null)
         {
             try
             {
@@ -76,29 +76,29 @@ public class DutiesService : IDutiesService
                 throw;
             }
         }
-        else if (duty == null)
+        else
         {
-            throw new NullReferenceException("$Could not find a duty that matches the requested id: {id}");
+            throw new NullReferenceException($"Could not find a duty that matches both the requested id: {id} and author: {user}");
         }
         return duty;
     }
 
-    public List<DutyModel> GetDuties()
-    {
-        return this._duties.GetDuties();
-    }
+    // public List<DutyModel> GetDuties()
+    // {
+    //     return this._duties.GetDuties();
+    // }
 
     public List<DutyModel> GetDuties(string user)
     {
         return this._duties.GetDutiesByUsername(user.ToLower());
     }
-
+    //erase this
     public DutyModel? GetDuty(int id)
     {
         return this._duties.GetDutyById(id);
     }
 
-    public DutyModel? GetDuty(int id, string user)
+    public DutyModel GetDuty(int id, string user)
     {
         DutyModel? duty = this._duties.GetDutyByIdAndUsername(id, user);
 
@@ -110,12 +110,12 @@ public class DutiesService : IDutiesService
         return duty;
     }
 
-    public DutyModel? ReplaceDuty(DutyModel updatedDuty)
-    {
-        return this._duties.replaceDuty(updatedDuty);
-    }
+    // public DutyModel? ReplaceDuty(DutyModel updatedDuty)
+    // {
+    //     return this._duties.replaceDuty(updatedDuty);
+    // }
 
-    public DutyModel? ReplaceDuty(int id, DutyModelDTO updatedDuty)
+    public DutyModel ReplaceDuty(int id, DutyModelDTO updatedDuty)
     {
         //make the full dutymodel out of the DTO
         DutyModel duty = new DutyModel
@@ -138,7 +138,7 @@ public class DutiesService : IDutiesService
         {
             return this._duties.replaceDuty(duty);
         }
-        catch(NullReferenceException)
+        catch (NullReferenceException)
         {
             throw;
         }

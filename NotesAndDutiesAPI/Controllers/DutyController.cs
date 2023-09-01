@@ -16,16 +16,16 @@ public class DutiesController : ControllerBase
         _dutiesService = service;
     }
 
+
+    // maybe change the return value when the list is empty, to a simple empty list instead of a 404
     [HttpGet]
     public IActionResult GetDuties()
     {
         string? user = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (user == null)
         {
-            Console.WriteLine($"tried to find the user claim and it was {user == null}");
             return Unauthorized("not authorized to see the duties");
         }
-        Console.WriteLine($"obtained the user Claim correctly {user}");
 
         List<DutyModel> dutiesList = this._dutiesService.GetDuties(user);
 
@@ -43,18 +43,18 @@ public class DutiesController : ControllerBase
         string? user = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (user == null)
         {
-            Console.WriteLine($"tried to find the user claim and it was {user == null}");
             return Unauthorized("not authorized to see the duties");
         }
 
-        DutyModel? reqDuty = this._dutiesService.GetDuty(id, user);
-
-        if (reqDuty != null)
+        try
         {
+            DutyModel reqDuty = this._dutiesService.GetDuty(id, user);
             return Ok(reqDuty);
         }
-
-        return NotFound("Could not find a duty that matches the specified id.");
+        catch (NullReferenceException)
+        {
+            return NotFound("Could not find a duty that matches the specified id.");
+        }
     }
 
     [HttpPost]
@@ -66,36 +66,42 @@ public class DutiesController : ControllerBase
             return Unauthorized("could not find the current username");
         }
 
-        DutyModel? duty = this._dutiesService.AddDuty(newDuty, user);
-
-        if (duty != null)
+        DutyModel duty = this._dutiesService.AddDuty(newDuty, user);
+        try
         {
             //should look up how to invoke the correct 201 code
             return Created($"Duties/{duty.DutyId}", duty);
         }
-        else
+        catch
         {
-            return BadRequest();
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
+
+
+
     }
 
-    [AllowAnonymous]
     [HttpDelete("{id}")]
     public IActionResult deleteDuty(int id)
     {
-        DutyModel? deletedDuty = this._dutiesService.DeleteDuty(id);
-
-        if (deletedDuty != null)
+        string? user = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (user == null)
         {
+            return Unauthorized("could not find the current username");
+        }
+
+        try
+        {
+            DutyModel deletedDuty = this._dutiesService.DeleteDuty(id, user);
             return Ok();
         }
-        else
+        catch (NullReferenceException)
         {
             return NotFound("could not find the resource");
         }
+
     }
 
-    [AllowAnonymous]
     [HttpPut("{id}")]
     public IActionResult updateDuty(int id, [FromBody] PostDutyModel updatedDuty)
     {
@@ -104,15 +110,15 @@ public class DutiesController : ControllerBase
         {
             return Unauthorized("could not find the current username");
         }
-        DutyModelDTO newDuty = new DutyModelDTO(updatedDuty, user);
 
-        var update = this._dutiesService.ReplaceDuty(id, newDuty);
-
-        if (update != null)
+        try
         {
+            DutyModelDTO newDuty = new DutyModelDTO(updatedDuty, user);
+
+            var update = this._dutiesService.ReplaceDuty(id, newDuty);
             return StatusCode(201);
         }
-        else
+        catch
         {
             return BadRequest();
         }

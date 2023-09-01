@@ -54,10 +54,10 @@ public class DutiesRepository : IDutiesRepository
         return chosenDuty;
     }
 
-    public List<DutyModel> GetDuties()
-    {
-        return this._duties.Set<DutyModel>().ToList();
-    }
+    // public List<DutyModel> GetDuties()
+    // {
+    //     return this._duties.Set<DutyModel>().ToList();
+    // }
 
     public List<DutyModel> GetDutiesByUsername(string username)
     {
@@ -82,7 +82,7 @@ public class DutiesRepository : IDutiesRepository
         return query.FirstOrDefault();
     }
 
-    public DutyModel? replaceDuty(DutyModel updatedDuty)
+    public DutyModel replaceDuty(DutyModel updatedDuty)
     {
         DutyModel? oldDuty = this.GetDutyById(updatedDuty.DutyId);
 
