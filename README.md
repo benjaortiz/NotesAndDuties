@@ -1,6 +1,6 @@
 # NotesAndDuties
 
-small API built using .NET and C# for learning and practicing purposes.
+Small API built using .NET and C# for learning and practicing purposes.
 
 Currently uses:
 * EntityFramework
