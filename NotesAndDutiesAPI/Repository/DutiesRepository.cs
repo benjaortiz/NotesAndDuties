@@ -54,11 +54,6 @@ public class DutiesRepository : IDutiesRepository
         return chosenDuty;
     }
 
-    // public List<DutyModel> GetDuties()
-    // {
-    //     return this._duties.Set<DutyModel>().ToList();
-    // }
-
     public List<DutyModel> GetDutiesByUsername(string username)
     {
         var query = from d in this._duties.duties

@@ -8,9 +8,4 @@ public interface IUserService
     public UserModel? getUser(UserLogin user);
 
     UserModel? getUser(UserModel user);
-    //get 1 specific
-
-    //update (put)
-
-    //patch
 }

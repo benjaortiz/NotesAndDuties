@@ -12,6 +12,7 @@ public interface IDutiesRepository
 
     //add
     DutyModel addDuty(DutyModel newDuty);
+
     //put
     DutyModel replaceDuty(DutyModel updatedDuty);
 

@@ -13,19 +13,6 @@ public class DutiesService : IDutiesService
         _duties = duties;
     }
 
-    // public DutyModel AddDuty(PostDutyModel newDuty)
-    // {
-    //     DutyModel duty = new DutyModel
-    //     {
-    //         Title = newDuty.Title,
-    //         Status = newDuty.Status,
-    //         Description = newDuty.Description
-    //     };
-
-    //     DutyModel addedDuty = this._duties.addDuty(duty);
-
-    //     return addedDuty;
-    // }
 
     public DutyModel AddDuty(PostDutyModel newDuty, string dutyAuthor)
     {
@@ -42,24 +29,6 @@ public class DutiesService : IDutiesService
         return addedDuty;
     }
 
-    // public DutyModel? DeleteDuty(int id)
-    // {
-    //     DutyModel? dutyToDelete = this._duties.GetDutyById(id);
-    //     if (dutyToDelete != null)
-    //     {
-    //         try
-    //         {
-    //             this._duties.deleteDuty(id);
-    //         }
-    //         catch (NullReferenceException)
-    //         {
-    //             throw;
-    //         }
-
-    //     }
-
-    //     return dutyToDelete;
-    // }
 
     public DutyModel DeleteDuty(int id, string user)
     {
@@ -83,10 +52,6 @@ public class DutiesService : IDutiesService
         return duty;
     }
 
-    // public List<DutyModel> GetDuties()
-    // {
-    //     return this._duties.GetDuties();
-    // }
 
     public List<DutyModel> GetDuties(string user)
     {
@@ -110,10 +75,6 @@ public class DutiesService : IDutiesService
         return duty;
     }
 
-    // public DutyModel? ReplaceDuty(DutyModel updatedDuty)
-    // {
-    //     return this._duties.replaceDuty(updatedDuty);
-    // }
 
     public DutyModel ReplaceDuty(int id, DutyModelDTO updatedDuty)
     {

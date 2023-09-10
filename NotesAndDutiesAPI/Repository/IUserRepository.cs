@@ -12,8 +12,4 @@ public interface IUserRepository
     public UserModel? addUser(UserModel newUser);
 
     public UserModel? getByEmail(string email);
-
-    //put
-
-    //patch
 }
