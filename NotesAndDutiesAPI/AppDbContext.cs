@@ -14,7 +14,14 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<DutyModel>().Property(t => t.Status).HasConversion(new EnumToStringConverter<DutyStatus>());
+        modelBuilder.Entity<DutyModel>()
+                    .Property(t => t.Status)
+                    .HasConversion(new EnumToStringConverter<DutyStatus>());
+        
+        modelBuilder.Entity<DutyModel>()
+                    .HasOne<UserModel>().WithMany()
+                    .HasForeignKey(d => d.Author)
+                    .HasPrincipalKey(u => u.Username);
     }
 
     public DbSet<UserModel> users { get; set; }

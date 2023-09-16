@@ -21,7 +21,7 @@ public class DutyModel
 
     public string? Description { get; set; }
 
-    [ForeignKey("FK_Username")]
+    [Required]
     public string Author { get; set; }
 }
 

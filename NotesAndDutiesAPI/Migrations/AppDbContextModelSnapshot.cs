@@ -22,6 +22,10 @@ namespace NotesAndDutiesAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
@@ -33,13 +37,9 @@ namespace NotesAndDutiesAPI.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("author")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.HasKey("DutyId");
 
-                    b.ToTable("duties");
+                    b.ToTable("duties", (string)null);
                 });
 
             modelBuilder.Entity("NotesAndDutiesAPI.Models.UserModel", b =>
@@ -67,7 +67,7 @@ namespace NotesAndDutiesAPI.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("users");
+                    b.ToTable("users", (string)null);
                 });
 #pragma warning restore 612, 618
         }

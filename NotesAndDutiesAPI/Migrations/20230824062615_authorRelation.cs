@@ -11,19 +11,19 @@ namespace NotesAndDutiesAPI.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "author",
+                name: "Author",
                 table: "duties",
                 type: "TEXT",
                 nullable: false,
                 defaultValue: "");
 
             migrationBuilder.AddForeignKey(
-            name: "FK_Duties_Users",
+            name: "FK_User",
             table: "duties",
-            column: "author",
+            column: "Author",
             principalTable: "users",
             principalColumn: "Username",
-            onDelete: ReferentialAction.SetNull);
+            onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
