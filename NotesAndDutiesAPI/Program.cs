@@ -11,6 +11,9 @@ using Services.LoginService;
 using Services.UserService;
 
 var builder = WebApplication.CreateBuilder(args);
+//configure Logging
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 //configure database
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data Source=nad.db"));

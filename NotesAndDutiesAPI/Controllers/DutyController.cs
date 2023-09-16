@@ -11,9 +11,11 @@ namespace NotesAndDutiesAPI.Controllers;
 public class DutiesController : ControllerBase
 {
     private IDutiesService _dutiesService;
-    public DutiesController(IDutiesService service)
+    private readonly ILogger<DutiesController> _logger;
+    public DutiesController(IDutiesService service, ILogger<DutiesController> logger)
     {
         _dutiesService = service;
+        _logger = logger;
     }
 
 
@@ -24,6 +26,7 @@ public class DutiesController : ControllerBase
         string? user = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (user == null)
         {
+            _logger.LogWarning("Could not retreive any user from the claims: ",user);
             return Unauthorized("not authorized to see the duties");
         }
 
@@ -34,6 +37,7 @@ public class DutiesController : ControllerBase
             return Ok(dutiesList);
         }
 
+        _logger.LogWarning("Could not find any duty that matches the username: ",user);
         return NotFound("Could not find the duties list");
     }
 
@@ -43,6 +47,7 @@ public class DutiesController : ControllerBase
         string? user = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (user == null)
         {
+            _logger.LogWarning("Could not retreive any user from the claims: ",user);
             return Unauthorized("not authorized to see the duties");
         }
 
@@ -66,14 +71,15 @@ public class DutiesController : ControllerBase
             return Unauthorized("could not find the current username");
         }
 
-        DutyModel duty = this._dutiesService.AddDuty(newDuty, user);
         try
         {
+            DutyModel duty = this._dutiesService.AddDuty(newDuty, user);
             //should look up how to invoke the correct 201 code
             return Created($"Duties/{duty.DutyId}", duty);
         }
         catch
         {
+            _logger.LogError($"An error ocurred while trying to add a duty to the following user: {user} ");
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
