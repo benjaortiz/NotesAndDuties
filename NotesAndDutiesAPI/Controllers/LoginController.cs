@@ -14,10 +14,13 @@ public class LoginController : ControllerBase
 {
     private IConfiguration _config;
     private ILoginService loginService;
-    public LoginController(IConfiguration config, ILoginService login)
+
+    private readonly ILogger<LoginController> _logger;
+    public LoginController(IConfiguration config, ILoginService login, ILogger<LoginController> logger)
     {
         _config = config;
         loginService = login;
+        _logger = logger;
     }
 
     [AllowAnonymous]
@@ -32,6 +35,7 @@ public class LoginController : ControllerBase
             return Ok(token);
         }
 
+        _logger.LogWarning("could not find a valid user/password");
         return NotFound("could not find a valid user/password");
     }
 

@@ -68,6 +68,7 @@ public class DutiesController : ControllerBase
         string? user = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (user == null)
         {
+            _logger.LogWarning("Could not retreive any user from the claims: ",user);
             return Unauthorized("could not find the current username");
         }
 
@@ -93,6 +94,7 @@ public class DutiesController : ControllerBase
         string? user = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (user == null)
         {
+            _logger.LogWarning("Could not retreive any user from the claims: ",user);
             return Unauthorized("could not find the current username");
         }
 
@@ -105,7 +107,6 @@ public class DutiesController : ControllerBase
         {
             return NotFound("could not find the resource");
         }
-
     }
 
     [HttpPut("{id}")]
@@ -114,6 +115,7 @@ public class DutiesController : ControllerBase
         string? user = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (user == null)
         {
+            _logger.LogWarning("Could not retreive any user from the claims: ",user);
             return Unauthorized("could not find the current username");
         }
 
