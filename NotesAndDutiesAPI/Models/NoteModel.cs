@@ -2,17 +2,19 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NotesAndDutiesAPI.Models;
 
-public class NoteModel {
+public class NoteModel
+{
     [Key]
-    public int NoteId;
+    public int NoteId { get; set; }
 
-    public string Text;
+    public string Text { get; set; }
 
     [Required]
-    public string Author;
+    public string Author { get; set; }
 }
 
-public class NoteModelDTO{
+public class NoteModelDTO
+{
     public string Text;
 
     public string Author;

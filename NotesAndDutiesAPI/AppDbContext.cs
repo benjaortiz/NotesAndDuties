@@ -19,10 +19,19 @@ public class AppDbContext : DbContext
                     .HasConversion(new EnumToStringConverter<DutyStatus>());
         
         modelBuilder.Entity<DutyModel>()
-                    .HasOne<UserModel>().WithMany()
+                    .HasOne<UserModel>()
+                    .WithMany()
                     .HasForeignKey(d => d.Author)
+                    .HasPrincipalKey(u => u.Username);
+
+        modelBuilder.Entity<NoteModel>()
+                    .HasOne<UserModel>()
+                    .WithMany()
+                    .HasForeignKey(n => n.Author)
                     .HasPrincipalKey(u => u.Username);
     }
 
     public DbSet<UserModel> users { get; set; }
+
+    public DbSet<NoteModel> notes {get; set;}
 }
