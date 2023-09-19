@@ -8,9 +8,12 @@ public class DutiesService : IDutiesService
 
     private IDutiesRepository _duties;
 
-    public DutiesService(IDutiesRepository duties)
+    private readonly ILogger<DutiesService> _logger;
+
+    public DutiesService(IDutiesRepository duties, ILogger<DutiesService> logger)
     {
         _duties = duties;
+        _logger = logger;
     }
 
 
@@ -42,11 +45,13 @@ public class DutiesService : IDutiesService
             }
             catch (NullReferenceException)
             {
+                _logger.LogWarning($"Delete attempt: error retreiving duty with id: {id}");
                 throw;
             }
         }
         else
         {
+            _logger.LogWarning($"Unable to find a duty that matches id: {id} & user: {user}");
             throw new NullReferenceException($"Could not find a duty that matches both the requested id: {id} and author: {user}");
         }
         return duty;
@@ -69,6 +74,7 @@ public class DutiesService : IDutiesService
 
         if (duty == null)
         {
+            _logger.LogWarning($"Unable to find a duty that matches id: {id} & user{user}");
             throw new NullReferenceException($"Could not find a duty that matches the given id: {id} & author: {user}");
         }
 
@@ -93,6 +99,7 @@ public class DutiesService : IDutiesService
 
         if (oldDuty == null)
         {
+            _logger.LogWarning($"Unable to find a duty that matches id: {id} & user{duty.Author}");
             throw new NullReferenceException($"Could not find a duty that matches the requested id: {id} & author: {duty.Author}");
         }
         try
@@ -101,6 +108,7 @@ public class DutiesService : IDutiesService
         }
         catch (NullReferenceException)
         {
+            _logger.LogWarning($"Replace attempt: unable to find a duty that matches id: {id} & user{duty.Author}");
             throw;
         }
     }

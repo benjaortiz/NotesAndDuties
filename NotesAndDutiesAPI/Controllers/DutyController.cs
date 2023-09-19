@@ -58,6 +58,7 @@ public class DutiesController : ControllerBase
         }
         catch (NullReferenceException)
         {
+            _logger.LogWarning($"Could not find a duty with id {id} made by user: {user}");
             return NotFound("Could not find a duty that matches the specified id.");
         }
     }
@@ -80,12 +81,9 @@ public class DutiesController : ControllerBase
         }
         catch
         {
-            _logger.LogError($"An error ocurred while trying to add a duty to the following user: {user} ");
+            _logger.LogWarning($"An error ocurred while trying to add a duty to the following user: {user} ");
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
-
-
-
     }
 
     [HttpDelete("{id}")]
@@ -105,6 +103,7 @@ public class DutiesController : ControllerBase
         }
         catch (NullReferenceException)
         {
+            _logger.LogWarning($"Error trying to delete a duty with id: {id} that has {user} as an author");
             return NotFound("could not find the resource");
         }
     }
