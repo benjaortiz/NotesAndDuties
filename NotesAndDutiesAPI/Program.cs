@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NotesAndDutiesAPI;
 using Repository.DutiesRepository;
+using Repository.NotesRepository;
 using Repository.UserRepository;
 using Services.DutiesService;
 using Services.LoginService;
@@ -22,6 +23,7 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data S
 builder.Services.AddScoped<IDutiesRepository, DutiesRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ILoginRepository, UserRepository>();
+builder.Services.AddScoped<INotesRepository, NotesRepository>();
 
 builder.Services.AddScoped<IDutiesService, DutiesService>();
 builder.Services.AddScoped<IUserService, UserService>();
